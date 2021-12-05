@@ -3,17 +3,15 @@ interface optionsInterface {
 }
 
 class Loader {
-    baseLink : string;
-    options : object;
 
-    constructor(baseLink : string, options : object) {
-        this.baseLink = baseLink;
-        this.options = options;
-    }
+    constructor(
+      public baseLink : string,
+      public options : object
+      ) {}
 
     getResp(
-        { endpoint, options = {} },
-        callback = () => {
+        { endpoint, options = {} }: {endpoint: string, options?: object},
+        callback = (): void => {
             console.error('No callback for GET response');
         }
     ) {
@@ -30,7 +28,7 @@ class Loader {
         return res;
     }
 
-    makeUrl(options : optionsInterface, endpoint : string) {
+    makeUrl(options :optionsInterface, endpoint :string) {
         const urlOptions = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
@@ -41,12 +39,12 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method, endpoint, callback, options = {}) {
+    load(method: string, endpoint: string, callback, options = {}) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
-            .then((res) => res.json())
+            .then((res): string => res.json())
             .then((data) => callback(data))
-            .catch((err) => console.error(err));
+            .catch((err): void => console.error(err));
     }
 }
 
