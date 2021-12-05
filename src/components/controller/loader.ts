@@ -1,5 +1,12 @@
+interface optionsInterface {
+  [key: string] : string;
+}
+
 class Loader {
-    constructor(baseLink, options) {
+    baseLink : string;
+    options : object;
+
+    constructor(baseLink : string, options : object) {
         this.baseLink = baseLink;
         this.options = options;
     }
@@ -23,7 +30,7 @@ class Loader {
         return res;
     }
 
-    makeUrl(options, endpoint) {
+    makeUrl(options : optionsInterface, endpoint : string) {
         const urlOptions = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
